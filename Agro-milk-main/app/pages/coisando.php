@@ -253,7 +253,7 @@ session_start();
                                 echo "<td>" . date('d/m/Y H:i:s', strtotime($usuario['data_cadastro'])) . "</td>";
                                 echo "<td>" . htmlspecialchars($usuario['login']) . "</td>";
                                 echo "<td class='actions'>
-                                <button class='edit'>Detalhar</button>
+                                <button class='edit' onclick='window.location.href=\"../pages/tabela.php?id={$usuario['id']}\"'>Detalhar</button>
                                 <button class='delete' onclick='confirmarExclusao({$usuario['id']})'>Excluir</button>
                               </td>";
                                 echo "</tr>";
