@@ -54,8 +54,8 @@
     <table>
         <thead>
             <tr>
-                <th>Pessoa X</th>
-                <th>Litros por Mês</th>
+                <th>NOME DO FUNCIONARIO</th>
+                <th>Litros Do dia</th>
                 <th>Valor do Leite</th>
                 <th>Total em R$</th>
             </tr>
@@ -67,32 +67,11 @@
                 <td>R$ 3,50</td>
                 <td>R$ 350,00</td>
                 <td>
-                    <button class="btn btn-detail">Detalhar</button>
+                    <button class="btn btn-detail">editar</button>
                     <button class="btn btn-delete">Excluir</button>
                 </td>
             </tr>
-            <!-- Repita para as demais linhas -->
-            <tr>
-                <td>PESSOA X</td>
-                <td>200</td>
-                <td>R$ 3,50</td>
-                <td>R$ 700,00</td>
-                <td>
-                    <button class="btn btn-detail">Detalhar</button>
-                    <button class="btn btn-delete">Excluir</button>
-                </td>
-            </tr>
-            <tr>
-                <td>PESSOA X</td>
-                <td>150</td>
-                <td>R$ 3,50</td>
-                <td>R$ 525,00</td>
-                <td>
-                    <button class="btn btn-detail">Detalhar</button>
-                    <button class="btn btn-delete">Excluir</button>
-                </td>
-            </tr>
-            <!-- Adicione mais linhas conforme necessário -->
+
         </tbody>
     </table>
 </body>

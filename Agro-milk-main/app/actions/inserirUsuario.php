@@ -1,43 +1,52 @@
 <?php
+session_start();
+require_once("../config/conecta.php");
 
-require_once("../confing/conecta.php");
-
-
-function inserirUsuarios($connect){
-
-    if(isset($_POST['cadastrar']) AND !empty($_POST['login_adm']) AND !empty($_POST['senha_adm'])){
+function inserirUsuarios($connect) {
+    if (isset($_POST['cadastrar']) && !empty($_POST['login']) && !empty($_POST['senha']) && !empty($_POST['confirmar_senha'])) {
         $erros = array();
-        $loginAdm = filter_input(INPUT_POST, 'login_adm'); 
-        //$nome = mysqli_real_escape_string($connect, $_POST['login_adm']); //retira caracteries especiais
-        $senha = sha1($_POST['senha_adm']);
+        $login = filter_input(INPUT_POST, 'login', FILTER_SANITIZE_STRING);
+        $senha = sha1($_POST['senha']);
+        $confirmar_senha = sha1($_POST['confirmar_senha']);
 
-        if ($_POST['senha_adm'] != ($_POST['repetesenha_adm'])){
-            $erro[]= "Senhas diferentes!";
-        }
-        $queryLogin = "SELECT login_adm FROM USUARIO_ADM WHERE login_adm = '$loginAdm'";
-        $buscaLogin= mysqli_query($connect, $queryLogin);
-        $verifica = mysqli_num_rows($buscaLogin);
-
-
-        if (!empty($verifica)){
-            $erro[]= "esse login ja esta sendo usado";
+        if ($senha != $confirmar_senha) {
+            $erros[] = "Senhas diferentes!";
         }
 
-        if (empty($erros)){
-            $query = "INSERT INTO USUARIO_ADM (login_adm, senha_adm) VALUES ('$loginAdm', '$senha')";
+        // Verificar se o login já existe na tabela de administradores
+        $queryLoginAdm = "SELECT login FROM administradores WHERE login = '$login'";
+        $buscaLoginAdm = mysqli_query($connect, $queryLoginAdm);
+        $verificaAdm = mysqli_num_rows($buscaLoginAdm);
+
+        // Verificar se o login já existe na tabela de usuários
+        $queryLoginUser = "SELECT login FROM usuarios WHERE login = '$login'";
+        $buscaLoginUser = mysqli_query($connect, $queryLoginUser);
+        $verificaUser = mysqli_num_rows($buscaLoginUser);
+
+        if (!empty($verificaAdm) || !empty($verificaUser)) {
+            $erros[] = "Esse login já está sendo usado";
+        }
+
+        if (empty($erros)) {
+            $dataCadastro = date('Y-m-d H:i:s'); // Obtém a data atual
+            $query = "INSERT INTO usuarios (login, senha, data_cadastro) VALUES ('$login', '$senha', '$dataCadastro')";
             $executar = mysqli_query($connect, $query);
-        
-        if ($executar){
-            echo "usuario inserido com sucesso";
-        }else{
-            echo "erro ao inserir usuario";
-        }
 
-        }else{
-            foreach($erros as $erro){
-                echo "<p>$erro</p>";
+            if ($executar) {
+                $_SESSION['mensagem'] = "Usuário inserido com sucesso";
+            } else {
+                $_SESSION['mensagem'] = "Erro ao inserir usuário: " . mysqli_error($connect);
             }
+        } else {
+            $_SESSION['mensagem'] = implode('<br>', $erros);
         }
+    } else {
+        $_SESSION['mensagem'] = "Preencha todos os campos.";
     }
+    header("Location: ../pages/coisando.php"); // Redireciona de volta para o formulário
+    exit();
 }
+
+// Chamar a função para inserir o usuário
+inserirUsuarios($connect);
 ?>
