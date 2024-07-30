@@ -1,8 +1,6 @@
-<?php require_once ("../config/conecta.php");
-    if(isset($_POST['acessar']))
-    {
-        login($connect);
-    }
+<?php
+session_start();
+require_once ("../config/conecta.php");
 ?>
 
 <!DOCTYPE html>
@@ -73,19 +71,30 @@
         .login-container a:hover {
             text-decoration: underline;
         }
+        .error-message {
+            color: #bf616a;
+            text-align: center;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
         <h2>Login</h2>
+        <?php
+        if (isset($_SESSION['erro_login'])) {
+            echo '<p class="error-message">' . $_SESSION['erro_login'] . '</p>';
+            unset($_SESSION['erro_login']); // Remove a mensagem de erro da sessão
+        }
+        ?>
         <form action="../actions/verifica_login.php" method="post">
             <label for="username">Usuário</label>
-            <input type="text" id="login_adm" name="login_adm">
+            <input type="text" id="login" name="login" required>
             
             <label for="password">Senha</label>
-            <input type="password" id="senha_adm" name="senha_adm" required>
+            <input type="password" id="senha" name="senha" required>
             
-            <input type="submit" name= "acessar" value="Acessar" required>
+            <input type="submit" name="acessar" value="Acessar">
         </form>
         <a href="#">Esqueceu a senha?</a>
     </div>

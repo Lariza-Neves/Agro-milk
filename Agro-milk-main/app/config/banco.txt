@@ -1,3 +1,4 @@
+
 -- Criar o banco de dados se não existir
 CREATE DATABASE IF NOT EXISTS agro_leite;
 
@@ -12,6 +13,13 @@ CREATE TABLE IF NOT EXISTS usuarios (
     data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE administradores (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    login VARCHAR(50) NOT NULL,
+    senha CHAR(40) NOT NULL,
+    PRIMARY KEY (id)
+);
+
 -- Tabela para armazenar as entregas de leite
 CREATE TABLE IF NOT EXISTS entregas (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -21,4 +29,3 @@ CREATE TABLE IF NOT EXISTS entregas (
     usuario_id INT NOT NULL,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
-
