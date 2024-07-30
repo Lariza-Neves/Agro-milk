@@ -1,4 +1,4 @@
-<?php require_once ("../confing/conecta.php");
+<?php require_once ("../config/conecta.php");
     if(isset($_POST['acessar']))
     {
         login($connect);
@@ -78,7 +78,7 @@
 <body>
     <div class="login-container">
         <h2>Login</h2>
-        <form action="login.php" method="post">
+        <form action="../actions/verifica_login.php" method="post">
             <label for="username">Usuário</label>
             <input type="text" id="login_adm" name="login_adm">
             
