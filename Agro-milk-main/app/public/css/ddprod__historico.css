@@ -1,0 +1,115 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    display: flex;
+}
+.container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.profile img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+}
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.buttons button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.buttons button:hover {
+    background-color: #0056b3;
+}
+.lado1 {
+    width: 50vw;
+    height: 100vh;
+    flex-direction: column;
+}
+
+h1 {
+    text-align: center;
+}
+
+.lado2 {
+    width: 50vw;
+    height: 100vh;
+}
+
+.lado1 table {
+    width: 100%;
+    height: 100%;
+    margin: 0 20px;
+}
+
+.lado1 table th {
+    height: 10%;
+    background-color: #87a8f0d2;
+    font-size: 140%;
+}
+
+
+.lado1 table {
+    table-layout: fixed;
+}
+
+.lado1 td {
+    width: 33.33%;
+}
+
+.lado1 td div {
+    height: 20px;
+    overflow: hidden;
+}
+
+.lado2 {
+    display: flex;
+    justify-content: end;
+}
+
+.lado2 h1 {
+    font-size: 150%;
+    font-weight: bold;
+    color: #000000;
+    
+
+}
+.lado2 img{
+    width: 200px;
+    margin-left: 30px;
+}
+.cor-diferente {
+    color: #87a8f0d2;
+}
+
+.lado2 .listra-rosa {
+    display: flex;
+    width: 3vw;
+    height: 100vh;
+    background-color: #87a8f0d2;
+    position: fixed;
+    right: 0;
+}
+.logo_nome{
+    margin-right: 20px;
+}
