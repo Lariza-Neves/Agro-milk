@@ -250,8 +250,8 @@ session_start();
                         if (mysqli_num_rows($usuarios) > 0) {
                             while ($usuario = mysqli_fetch_assoc($usuarios)) {
                                 echo "<tr>";
-                                echo "<td>" . date('d/m/Y H:i:s', strtotime($usuario['data_cadastro'])) . "</td>";
                                 echo "<td>" . htmlspecialchars($usuario['login']) . "</td>";
+                                echo "<td>" . date('d/m/Y H:i:s', strtotime($usuario['data_cadastro'])) . "</td>";
                                 echo "<td class='actions'>
                                 <button class='edit' onclick='window.location.href=\"../pages/tabela.php?id={$usuario['id']}\"'>Detalhar</button>
                                 <button class='delete' onclick='confirmarExclusao({$usuario['id']})'>Excluir</button>
