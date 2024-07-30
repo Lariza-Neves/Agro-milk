@@ -216,11 +216,9 @@ session_start();
     <div class="sidebar">
         <h1>PROTEÇÃO</h1>
         <ul>
-            <li><a href="#">local1</a></li>
-            <li><a href="#">local2</a></li>
-            <li><a href="#">local3</a></li>
-            <li><a href="#">local4</a></li>
-            <li><a href="#">local5</a></li>
+            <li><a href="tabela.php">painel</a></li>
+            <li><a href="users.php">gerenciador de usuarios</a></li>
+            <li><a href="../actions/logout.php">sair</a></li>
 
         </ul>
     </div>
