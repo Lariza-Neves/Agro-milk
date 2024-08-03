@@ -15,6 +15,7 @@
         <label for="senha">Digite sua senha: </label>
         <input type="text" name="senha" placeholder = "Digite a senha" id="senha_usu">
         <button type="submit">Cadastrar</button>
+        <nav></nav>
     </form>
 </body>
 </html>
