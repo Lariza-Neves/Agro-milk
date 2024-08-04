@@ -1,0 +1,88 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f8; 
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #0077b6; 
+    color: #fff;
+}
+
+header .lef-card, header .center-card, header .right-card {
+    display: flex;
+    align-items: center;
+}
+
+header .lef-card img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+header .lef-card h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+header .lef-card .cor-diferente {
+    color: #00b4d8; 
+}
+
+header .right-card {
+    display: flex;
+    align-items: center;
+}
+
+header .right-card i {
+    font-size: 30px;
+    margin-right: 10px;
+}
+
+header .right-card h1 {
+    font-size: 20px;
+    margin: 0;
+}
+
+main {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Espaçamento entre os botões */
+}
+
+.button-link {
+    text-decoration: none;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #0077b6; /* Azul escuro */
+    color: #fff;
+    font-size: 18px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #005f8a; /* Azul mais escuro */
+    transform: scale(1.05); /* Efeito de escala ao passar o mouse */
+}
