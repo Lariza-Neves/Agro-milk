@@ -31,6 +31,6 @@ if (isset($_GET['id'])) {
     $_SESSION['mensagem'] = "Nenhum ID de usuário fornecido.";
 }
 
-header("Location: ../pages/coisando.php");
+header("Location: ../pages/gerencia.php");
 exit();
 ?>

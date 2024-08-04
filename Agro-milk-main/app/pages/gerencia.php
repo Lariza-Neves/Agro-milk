@@ -1,15 +1,29 @@
 <?php
 session_start();
+
+// Verifica se o usuário está logado
+if (!isset($_SESSION['ativa']) || $_SESSION['ativa'] !== TRUE) {
+    $_SESSION['msgLogin'] = "Você precisa estar logado para acessar esta página.";
+    header("Location: ../pages/login.php");
+    exit();
+}
+
+// Se necessário, verifique se o usuário é administrador
+ if ($_SESSION['tipo'] !== 'admin') {
+     $_SESSION['msgLogin'] = "Você não tem permissão para acessar esta página.";
+     header("Location: ../pages/login.php");
+     exit();
+ }
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registros das Fichas de Escuta Especializada</title>
+    <title>Gerenciamento de Funcionarios</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -25,64 +39,33 @@ session_start();
             height: 100%;
             padding-top: 20px;
             border-right: 1px solid #ddd;
-            box-shadow: 3px 0px 0px #39a3fb;
         }
 
+        .sidebar h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px;
+            text-align: center;
+        }
 
         .sidebar ul li a {
             text-decoration: none;
             color: #333;
             font-size: 18px;
-            display: flex;
+            display: block;
         }
 
         .sidebar ul li a:hover {
-            width: 100%;
-            background-color: #39a3fb;
-        }
-
-        .btn-expandir{
-            width: 100%;
-            padding-left: 10px;
-        }
-        .btn-expandir > i{
-            color:#888;
-            font-size: 24px;
-            cursor: pointer;
-            padding: 20px 5%;
-            display: flex;
-            text-decoration: none;
-            margin-left: 30px;
-        }
-        .btn-expandir > i{
-            transition: 0.5s;
-        }
-        .btn-expandir > i:hover{
-            color: #39a3fb;
-        }
-        ul{
-            height: 100%;
-            list-style-type: none;
-        }
-        ul li.item-menu1{
-            color:#ddd;
-            text-decoration: none;
-            font-size: 20px;
-            padding: 20px 5%;
-            display: flex;
-        }
-        ul li.item-menu1 a .txt-link{
-            margin-left: 30px;
-        }
-        ul li.item-menu2{
-            color:#ddd;
-            text-decoration: none;
-            font-size: 20px;
-            padding: 20px 5%;
-            display: flex;
-        }
-        ul li.item-menu2 a .txt-link{
-            margin-left: 20px;
+            background-color: #f4f4f9;
         }
 
         .main-content {
@@ -246,22 +229,12 @@ session_start();
 <body>
     <?php require_once ("../actions/consultaUsers.php"); ?>
     <div class="sidebar">
-        <div class="btn-expandir">
-            <i class="bi bi-list"></i>
-        </div>
+        <h1>PROTEÇÃO</h1>
         <ul>
-            <li class= "item-menu1">
-                <a href="#">
-                    <span class= "icon"><i class="bi bi-people"></i></span>
-                    <span class= "txt-link">Gerenciador de Usuarios</span>
-                </a>
-            </li>
-            <li class= "item-menu2">
-                <a href="#">
-                    <span class= "icon"><i class="bi bi-box-arrow-left"></i></span>
-                    <span class= "txt-link">Sair</span>
-                </a>
-            </li>
+            <li><a href="tabela.php">painel</a></li>
+            <li><a href="users.php">gerenciador de usuarios</a></li>
+            <li><a href="../actions/logout.php">sair</a></li>
+
         </ul>
     </div>
     <div class="main-content">

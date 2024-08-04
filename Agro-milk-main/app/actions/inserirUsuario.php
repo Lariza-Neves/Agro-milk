@@ -43,7 +43,7 @@ function inserirUsuarios($connect) {
     } else {
         $_SESSION['mensagem'] = "Preencha todos os campos.";
     }
-    header("Location: ../pages/coisando.php"); // Redireciona de volta para o formulário
+    header("Location: ../pages/gerencia.php"); // Redireciona de volta para o formulário
     exit();
 }
 

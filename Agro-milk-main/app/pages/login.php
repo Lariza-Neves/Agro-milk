@@ -3,29 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login</title>
+    <title>Login</title>
     <link rel="icon" href="2138227.png">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../public/css/login__logasso.css">
 </head>
 <body>
-     <div class= "main-login"> 
-        <div class="left-login">  
+
+    <div class="main-login">
+        <div class="left-login">
             <img src="../public/img/agro-milk (1).png" class="left-login-img" alt="...">
         </div>
-            <div class="right-login"> 
-                <div class="card-login"> 
-                    <h1>LOGIN</h1>
+        <div class="right-login">
+            <div class="card-login">
+                <h1>LOGIN</h1>
+                <?php
+                session_start();
+                if (isset($_SESSION['msgLogin'])) {
+                    echo "<p style='color:red;'>" . $_SESSION['msgLogin'] . "</p>";
+                    unset($_SESSION['msgLogin']); 
+                }
+                ?>
+                <form action="../actions/verifica_login.php" method="post">
                     <div class="textfield">
-                        <label for="usuario">Usuario: </label>
-                        <input type="text" name= "usuario" placeholder="usuario"> 
+                        <label for="login">Usuário: </label>
+                        <input type="text" name="login" placeholder="usuário" required>
                     </div>
                     <div class="textfield">
                         <label for="senha">Senha: </label>
-                        <input type="password" name= "senha" placeholder="senha"> 
+                        <input type="password" name="senha" placeholder="senha" required>
                     </div>
-                    <a href="historico_prod.html" class="btn-login">LOGIN</a>
-                </div>
+                    <button type="submit" name="acessar" class="btn-login">LOGIN</button>
+                </form>
             </div>
-     </div>
+        </div>
+    </div>
 </body>
 </html>

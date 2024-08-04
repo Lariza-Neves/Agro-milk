@@ -1,6 +1,6 @@
 <?php
-session_start();
-require_once ("../config/conecta.php");
+require_once("../config/conecta.php");
+require_once("../actions/verifica_usuario.php"); // Inclui a verificação de acesso
 
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
@@ -10,22 +10,31 @@ if (isset($_GET['id'])) {
         // Busca o nome do funcionário
         $queryUsuario = "SELECT login FROM usuarios WHERE id = $id";
         $resultadoUsuario = mysqli_query($connect, $queryUsuario);
-        $usuario = mysqli_fetch_assoc($resultadoUsuario);
 
-        // Busca as entregas do funcionário
-        $queryEntregas = "SELECT * FROM entregas WHERE usuario_id = $id";
-        $resultadoEntregas = mysqli_query($connect, $queryEntregas);
+        // Verifica se a consulta retornou algum resultado
+        if (mysqli_num_rows($resultadoUsuario) > 0) {
+            $usuario = mysqli_fetch_assoc($resultadoUsuario);
+
+            // Busca as entregas do funcionário
+            $queryEntregas = "SELECT * FROM entregas WHERE usuario_id = $id";
+            $resultadoEntregas = mysqli_query($connect, $queryEntregas);
+        } else {
+            $_SESSION['mensagem'] = "Usuário não encontrado.";
+            header("Location: ../pages/gerencia.php");
+            exit();
+        }
     } else {
         $_SESSION['mensagem'] = "ID de usuário inválido.";
-        header("Location: ../pages/coisando.php");
+        header("Location: ../pages/gerencia.php");
         exit();
     }
 } else {
     $_SESSION['mensagem'] = "Nenhum ID de usuário fornecido.";
-    header("Location: ../pages/coisando.php");
+    header("Location: ../pages/gerencia.php");
     exit();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">

@@ -27,17 +27,24 @@ function login($connect) {
             $_SESSION['id'] = $returnAdm['id'];
             $_SESSION['tipo'] = 'admin';
             $_SESSION['ativa'] = TRUE;
-            header("Location: ../pages/tabela.php"); // Redirecionar para o painel do admin
+            header("Location: ../pages/gerencia.php");
+            exit();
         } elseif (!empty($returnUser['login'])) {
             $_SESSION['login'] = $returnUser['login'];
             $_SESSION['id'] = $returnUser['id'];
             $_SESSION['tipo'] = 'user';
             $_SESSION['ativa'] = TRUE;
-            header("Location: ../pages/tabela.php"); // Redirecionar para o painel do usuário
+            header("Location: ../pages/tabela.php?id={$returnUser['id']}");
+            exit();
         } else {
-            $_SESSION['erro_login'] = "Login ou senha incorretos";
-            header("Location: ../pages/login.php"); // Redirecionar de volta para o formulário de login
+            $_SESSION['msgLogin'] = "Login ou senha incorretos";
+            header("Location: ../pages/login.php");
+            exit();
         }
+    } else {
+        $_SESSION['msgLogin'] = "Preencha todos os campos";
+        header("Location: ../pages/login.php");
+        exit();
     }
 }
 
