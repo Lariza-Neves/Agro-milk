@@ -32,6 +32,7 @@ function cadastrarAdmin($connect, $login, $senha) {
     $queryCheck->close();
     $queryInsert->close();
 }
+
 $login = "lariz";
 $senha = "ailula";
 
