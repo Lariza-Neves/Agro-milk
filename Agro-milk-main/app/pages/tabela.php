@@ -2,6 +2,9 @@
 require_once("../config/conecta.php");
 require_once("../actions/verifica_usuario.php"); // Inclui a verificação de acesso
 
+$usuario = null;
+$resultadoEntregas = null;
+
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
 
@@ -34,7 +37,6 @@ if (isset($_GET['id'])) {
     exit();
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -101,7 +103,8 @@ if (isset($_GET['id'])) {
 </head>
 
 <body>
-    <h2>Detalhes do Funcionário: <?php echo htmlspecialchars($usuario['login']); ?></h2><li><a href="../actions/logout.php">sair</a></li>
+    <h2>Detalhes do Funcionário: <?php echo htmlspecialchars($usuario['login'] ?? ''); ?></h2>
+    <li><a href="../actions/logout.php">sair</a></li>
     <table>
         <thead>
             <tr>
@@ -114,7 +117,7 @@ if (isset($_GET['id'])) {
         </thead>
         <tbody>
             <?php
-            if (mysqli_num_rows($resultadoEntregas) > 0) {
+            if ($resultadoEntregas && mysqli_num_rows($resultadoEntregas) > 0) {
                 while ($entrega = mysqli_fetch_assoc($resultadoEntregas)) {
                     $total = $entrega['quantidade_leite'] * $entrega['preco_dia'];
                     echo "<tr>";
@@ -123,8 +126,11 @@ if (isset($_GET['id'])) {
                     echo "<td>R$ " . number_format($entrega['preco_dia'], 2, ',', '.') . "</td>";
                     echo "<td>R$ " . number_format($total, 2, ',', '.') . "</td>";
                     echo "<td class='actions'>
-                            <button class='btn btn-detail'>Editar</button>
-                            <button class='btn btn-delete'>Excluir</button>
+                            <a href='../actions/editarEntrega.php?id=" . $entrega['id'] . "' class='btn btn-detail'>Editar</a>
+                            <form action='../actions/excluirEntrega.php' method='POST' style='display:inline;'>
+                                <input type='hidden' name='id' value='" . $entrega['id'] . "'>
+                                <button type='submit' class='btn btn-delete'>Excluir</button>
+                            </form>
                           </td>";
                     echo "</tr>";
                 }
