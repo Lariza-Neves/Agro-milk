@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,19 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../public/css/login__logasso.css">
 </head>
+
 <body>
+    <?php
+    session_start();
+    if (isset($_SESSION['ativa']) && $_SESSION['ativa'] === TRUE) {
+        if ($_SESSION['tipo'] === 'admin') {
+            header("Location: ../pages/gerencia.php");
+        } elseif ($_SESSION['tipo'] === 'user') {
+            header("Location: ../pages/tabela.php?id=" . $_SESSION['id']);
+        }
+        exit();
+    }
+    ?>
 
     <div class="main-login">
         <div class="left-login">
@@ -18,10 +31,10 @@
             <div class="card-login">
                 <h1>LOGIN</h1>
                 <?php
-                session_start();
+
                 if (isset($_SESSION['msgLogin'])) {
                     echo "<p style='color:red;'>" . $_SESSION['msgLogin'] . "</p>";
-                    unset($_SESSION['msgLogin']); 
+                    unset($_SESSION['msgLogin']);
                 }
                 ?>
                 <form action="../actions/verifica_login.php" method="post">
@@ -39,4 +52,5 @@
         </div>
     </div>
 </body>
+
 </html>

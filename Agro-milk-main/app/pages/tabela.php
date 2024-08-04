@@ -101,7 +101,7 @@ if (isset($_GET['id'])) {
 </head>
 
 <body>
-    <h2>Detalhes do Funcionário: <?php echo htmlspecialchars($usuario['login']); ?></h2>
+    <h2>Detalhes do Funcionário: <?php echo htmlspecialchars($usuario['login']); ?></h2><li><a href="../actions/logout.php">sair</a></li>
     <table>
         <thead>
             <tr>
