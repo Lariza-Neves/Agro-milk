@@ -5,42 +5,47 @@ session_start();
 function login($connect) {
     if (isset($_POST['acessar']) && !empty($_POST['login']) && !empty($_POST['senha'])) {
         $login = filter_input(INPUT_POST, 'login', FILTER_SANITIZE_STRING);
-        $senha = sha1($_POST['senha']);
-        $queryAdm = "SELECT * FROM administradores WHERE login = '$login' AND senha = '$senha'";
-        $queryUser = "SELECT * FROM usuarios WHERE login = '$login' AND senha = '$senha'";
+        $senha = $_POST['senha'];
 
-        // Executar consultas e verificar erros
-        $executarAdm = mysqli_query($connect, $queryAdm);
-        if (!$executarAdm) {
-            die('Erro na consulta para administradores: ' . mysqli_error($connect));
-        }
-        $executarUser = mysqli_query($connect, $queryUser);
-        if (!$executarUser) {
-            die('Erro na consulta para usuários: ' . mysqli_error($connect));
+        // Verificar login em administradores
+        $queryAdm = $connect->prepare("SELECT * FROM administradores WHERE login = ?");
+        $queryAdm->bind_param("s", $login);
+        $queryAdm->execute();
+        $resultAdm = $queryAdm->get_result();
+        
+        if ($resultAdm->num_rows > 0) {
+            $returnAdm = $resultAdm->fetch_assoc();
+            if (password_verify($senha, $returnAdm['senha'])) {
+                $_SESSION['login'] = $returnAdm['login'];
+                $_SESSION['id'] = $returnAdm['id'];
+                $_SESSION['tipo'] = 'admin';
+                $_SESSION['ativa'] = TRUE;
+                header("Location: ../pages/gerencia.php");
+                exit();
+            }
         }
 
-        $returnAdm = mysqli_fetch_assoc($executarAdm);
-        $returnUser = mysqli_fetch_assoc($executarUser);
+        // Verificar login em usuários
+        $queryUser = $connect->prepare("SELECT * FROM usuarios WHERE login = ?");
+        $queryUser->bind_param("s", $login);
+        $queryUser->execute();
+        $resultUser = $queryUser->get_result();
 
-        if (!empty($returnAdm['login'])) {
-            $_SESSION['login'] = $returnAdm['login'];
-            $_SESSION['id'] = $returnAdm['id'];
-            $_SESSION['tipo'] = 'admin';
-            $_SESSION['ativa'] = TRUE;
-            header("Location: ../pages/gerencia.php");
-            exit();
-        } elseif (!empty($returnUser['login'])) {
-            $_SESSION['login'] = $returnUser['login'];
-            $_SESSION['id'] = $returnUser['id'];
-            $_SESSION['tipo'] = 'user';
-            $_SESSION['ativa'] = TRUE;
-            header("Location: ../pages/tabela.php?id={$returnUser['id']}");
-            exit();
-        } else {
-            $_SESSION['msgLogin'] = "Login ou senha incorretos";
-            header("Location: ../pages/login.php");
-            exit();
+        if ($resultUser->num_rows > 0) {
+            $returnUser = $resultUser->fetch_assoc();
+            if (password_verify($senha, $returnUser['senha'])) {
+                $_SESSION['login'] = $returnUser['login'];
+                $_SESSION['id'] = $returnUser['id'];
+                $_SESSION['tipo'] = 'user';
+                $_SESSION['ativa'] = TRUE;
+                header("Location: ../pages/tabela.php?id={$returnUser['id']}");
+                exit();
+            }
         }
+
+        $_SESSION['msgLogin'] = "Login ou senha incorretos";
+        header("Location: ../pages/login.php");
+        exit();
     } else {
         $_SESSION['msgLogin'] = "Preencha todos os campos";
         header("Location: ../pages/login.php");
@@ -51,4 +56,7 @@ function login($connect) {
 if (isset($_POST['acessar'])) {
     login($connect);
 }
+
+// Fechar a conexão com o banco de dados
+$connect->close();
 ?>
