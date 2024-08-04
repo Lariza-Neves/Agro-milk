@@ -29,7 +29,7 @@
                 <h4 class="text-h4">Bem vindo a Agro-milk</h4>
                 <h1 class="text-h1">Seu sistema financeiro de laticíneos</h1>
                 <p></p>
-                <a href="loginassociado.html" class="home-btn">Entrar</a>
+                <a href="login.php" class="home-btn">Entrar</a>
             </div>
             <div class="home-img">
                 <img src="../public/img/img-inicial-removebg-preview.png" alt="imagem que representa administração">
