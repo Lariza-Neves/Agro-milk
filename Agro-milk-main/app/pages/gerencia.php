@@ -9,13 +9,19 @@ if (!isset($_SESSION['ativa']) || $_SESSION['ativa'] !== TRUE) {
 }
 
 // Se necessário, verifique se o usuário é administrador
- if ($_SESSION['tipo'] !== 'admin') {
-     $_SESSION['msgLogin'] = "Você não tem permissão para acessar esta página.";
-     header("Location: ../pages/login.php");
-     exit();
- }
-?>
+if ($_SESSION['tipo'] !== 'admin') {
+    $_SESSION['msgLogin'] = "Você não tem permissão para acessar esta página.";
+    header("Location: ../pages/login.php");
+    exit();
+}
 
+// Incluir o arquivo de consulta
+require_once("../actions/consultaUsers.php");
+
+// Capturar o parâmetro de busca
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -93,6 +99,11 @@ if (!isset($_SESSION['ativa']) || $_SESSION['ativa'] !== TRUE) {
             cursor: pointer;
         }
 
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
         .header button:hover {
             background-color: #0056b3;
         }
@@ -105,14 +116,11 @@ if (!isset($_SESSION['ativa']) || $_SESSION['ativa'] !== TRUE) {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        table,
-        th,
-        td {
+        table, th, td {
             border: 1px solid #ddd;
         }
 
-        th,
-        td {
+        th, td {
             padding: 15px;
             text-align: left;
         }
@@ -187,7 +195,6 @@ if (!isset($_SESSION['ativa']) || $_SESSION['ativa'] !== TRUE) {
             margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
-
         }
 
         .modal-content button {
@@ -197,12 +204,10 @@ if (!isset($_SESSION['ativa']) || $_SESSION['ativa'] !== TRUE) {
             color: white;
             border-radius: 5px;
             cursor: pointer;
-
         }
 
         .modal-content button:hover {
             background-color: #0056b3;
-
         }
 
         .close {
@@ -222,104 +227,129 @@ if (!isset($_SESSION['ativa']) || $_SESSION['ativa'] !== TRUE) {
         .main-content {
             font-size: larger;
         }
-    </style>
+
+        /* Estilos adicionais para o input de busca e botão de submit */
+        form input[type="text"] {
+            padding: 10px;
+            font-size: large;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+            width: 200px;
+        }
+
+        form button[type="submit"] {
+            padding: 10px 20px;
+            font-size: large;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        form button[type="submit"]:hover {
+            background-color: #0056b3;
+        }</style>
 
 </head>
 
 <body>
-    <?php require_once ("../actions/consultaUsers.php"); ?>
     <div class="sidebar">
         <h1>PROTEÇÃO</h1>
         <ul>
             <li><a href="tabela.php">painel</a></li>
-            <li><a href="users.php">gerenciador de usuarios</a></li>
+            <li><a href="gerencia.php">gerenciador de usuarios</a></li>
             <li><a href="../actions/logout.php">sair</a></li>
-
         </ul>
     </div>
     <div class="main-content">
-        <div class="header">
+    <div class="header">
             <h2>Registros de Funcionarios</h2>
-            <button style="font-size: large;" id="addRecordBtn">Adicionar registro</button>
-            <div>
-                <h2>Lista de Usuários</h2>
-                <?php
-                        if (isset($_SESSION['mensagem'])) {
-                            echo "<p>{$_SESSION['mensagem']}</p>";
-                            unset($_SESSION['mensagem']); // Limpa a mensagem após exibir
-                        }
-                        ?>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Data de Cadastro</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $usuarios = buscarUsuarios($connect);
-                        if (mysqli_num_rows($usuarios) > 0) {
-                            while ($usuario = mysqli_fetch_assoc($usuarios)) {
-                                echo "<tr>";
-                                echo "<td>" . htmlspecialchars($usuario['login']) . "</td>";
-                                echo "<td>" . date('d/m/Y ', strtotime($usuario['data_cadastro'])) . "</td>";
-                                echo "<td class='actions'>
+            <div class="header-content">
+                <button id="addRecordBtn">Adicionar registro</button>
+                <form method="GET" action="gerencia.php">
+                    <input type="text" name="search" placeholder="Buscar por nome" value="<?php echo htmlspecialchars($search); ?>">
+                    <button type="submit">Buscar</button>
+                </form>
+            </div>
+        <div>
+            <h2>Lista de Usuários</h2>
+            <?php
+            if (isset($_SESSION['mensagem'])) {
+                echo "<p>{$_SESSION['mensagem']}</p>";
+                unset($_SESSION['mensagem']); // Limpa a mensagem após exibir
+            }
+            ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Data de Cadastro</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $usuarios = buscarUsuarios($connect, $search);
+                    if (mysqli_num_rows($usuarios) > 0) {
+                        while ($usuario = mysqli_fetch_assoc($usuarios)) {
+                            echo "<tr>";
+                            echo "<td>" . htmlspecialchars($usuario['login']) . "</td>";
+                            echo "<td>" . date('d/m/Y ', strtotime($usuario['data_cadastro'])) . "</td>";
+                            echo "<td class='actions'>
                                 <button class='edit' onclick='window.location.href=\"../pages/tabela.php?id={$usuario['id']}\"'>Detalhar</button>
                                 <button class='delete' onclick='confirmarExclusao({$usuario['id']})'>Excluir</button>
                               </td>";
-                                echo "</tr>";
-                            }
-                        } else {
-                            echo "<tr><td colspan='3'>Nenhum usuário cadastrado.</td></tr>";
+                            echo "</tr>";
                         }
-                        ?>
-                    </tbody>
-                </table>
+                    } else {
+                        echo "<tr><td colspan='3'>Nenhum usuário encontrado.</td></tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Registro</h2>
+                <form action="../actions/inserirUsuario.php" method="POST">
+                    <input type="text" name="login" placeholder="Login" required>
+                    <input type="password" name="senha" placeholder="Senha" required>
+                    <input type="password" name="confirmar_senha" placeholder="Confirmar Senha" required>
+                    <button type="submit" name="cadastrar">Registrar</button>
+                </form>
             </div>
+        </div>
 
-            <!-- The Modal -->
-            <div id="myModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h2>Registro</h2>
-                    <form action="../actions/inserirUsuario.php" method="POST">
-                        
-                        <input type="text" name="login" placeholder="Login" required>
-                        <input type="password" name="senha" placeholder="Senha" required>
-                        <input type="password" name="confirmar_senha" placeholder="Confirmar Senha" required>
-                        <button type="submit" name="cadastrar">Registrar</button>
-                    </form>
+        <script>
+            var modal = document.getElementById("myModal");
+            var btn = document.getElementById("addRecordBtn");
+            var span = document.getElementsByClassName("close")[0];
 
-                </div>
-            </div>
+            btn.onclick = function () {
+                modal.style.display = "block";
+            }
 
-            <script>
-                var modal = document.getElementById("myModal");
-                var btn = document.getElementById("addRecordBtn");
-                var span = document.getElementsByClassName("close")[0];
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
 
-                btn.onclick = function () {
-                    modal.style.display = "block";
-                }
-
-                span.onclick = function () {
+            window.onclick = function (event) {
+                if (event.target == modal) {
                     modal.style.display = "none";
                 }
+            }
 
-                window.onclick = function (event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
-                    }
+            function confirmarExclusao(userId) {
+                if (confirm("Tem certeza que deseja excluir este usuário?")) {
+                    window.location.href = "../actions/deletarUsuario.php?id=" + userId;
                 }
-
-                function confirmarExclusao(userId) {
-                    if (confirm("Tem certeza que deseja excluir este usuário?")) {
-                        window.location.href = "../actions/deletarUsuario.php?id=" + userId;
-                    }
-                }
-            </script>
+            }
+        </script>
 </body>
 
 </html>
