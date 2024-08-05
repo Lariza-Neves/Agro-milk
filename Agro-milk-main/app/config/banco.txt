@@ -1,31 +1,39 @@
 
--- Criar o banco de dados se não existir
+-- Criar o banco de dados
+drop database if exists agro_leite;
 CREATE DATABASE IF NOT EXISTS agro_leite;
 
 -- Selecionar o banco de dados
 USE agro_leite;
 
+
 -- Tabela para armazenar os usuários (funcionários)
-CREATE TABLE IF NOT EXISTS usuarios (
+CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     login VARCHAR(50) NOT NULL UNIQUE,
     senha VARCHAR(255) NOT NULL,
-    data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+	data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Tabela para armazenar os administradores
 CREATE TABLE administradores (
-    id INT(11) NOT NULL AUTO_INCREMENT,
-    login VARCHAR(50) NOT NULL,
-    senha CHAR(40) NOT NULL,
-    PRIMARY KEY (id)
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    login VARCHAR(50) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL
 );
 
 -- Tabela para armazenar as entregas de leite
-CREATE TABLE IF NOT EXISTS entregas (
+CREATE TABLE entregas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     data_entrega DATE NOT NULL,
+    pago BOOLEAN NOT NULL DEFAULT FALSE,
     quantidade_leite FLOAT NOT NULL,
     preco_dia FLOAT NOT NULL,
     usuario_id INT NOT NULL,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
+
+
+use agro_leite;
+select * from usuarios;
+select * from administradores;

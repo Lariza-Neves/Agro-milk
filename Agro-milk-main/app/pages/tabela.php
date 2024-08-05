@@ -18,8 +18,8 @@ if (isset($_GET['id'])) {
         if (mysqli_num_rows($resultadoUsuario) > 0) {
             $usuario = mysqli_fetch_assoc($resultadoUsuario);
 
-            // Busca as entregas do funcionário
-            $queryEntregas = "SELECT * FROM entregas WHERE usuario_id = $id";
+            // Busca as entregas do funcionário que não estão pagas
+            $queryEntregas = "SELECT * FROM entregas WHERE usuario_id = $id AND pago = FALSE";
             $resultadoEntregas = mysqli_query($connect, $queryEntregas);
         } else {
             $_SESSION['mensagem'] = "Usuário não encontrado.";
@@ -99,6 +99,11 @@ if (isset($_GET['id'])) {
         .btn-delete {
             background-color: #dc3545;
         }
+
+        .btn-paid {
+            background-color: #28a745;
+            margin-right: 5px;
+        }
     </style>
     <script>
         function confirmDelete(event) {
@@ -137,6 +142,10 @@ if (isset($_GET['id'])) {
                             <form action='../actions/excluirEntrega.php' method='POST' style='display:inline;' onsubmit='confirmDelete(event)'>
                                 <input type='hidden' name='id' value='" . $entrega['id'] . "'>
                                 <button type='submit' class='btn btn-delete'>Excluir</button>
+                            </form>
+                            <form action='../actions/marcarPago.php' method='POST' style='display:inline;'>
+                                <input type='hidden' name='id' value='" . $entrega['id'] . "'>
+                                <button type='submit' class='btn btn-paid'>Pago</button>
                             </form>
                           </td>";
                     echo "</tr>";
