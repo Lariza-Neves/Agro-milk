@@ -16,7 +16,7 @@ if ($_SESSION['tipo'] !== 'admin') {
 }
 
 // Incluir o arquivo de consulta
-require_once("../actions/consultaUsers.php");
+require_once ("../actions/consultaUsers.php");
 
 // Capturar o parâmetro de busca
 $search = isset($_GET['search']) ? $_GET['search'] : '';
@@ -29,7 +29,11 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciamento de Funcionarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -70,6 +74,11 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
             display: block;
         }
 
+        .sidebar button {
+            background: none;
+            border: none;
+        }
+
         .sidebar ul li a:hover {
             background-color: #f4f4f9;
         }
@@ -104,11 +113,12 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
             justify-content: space-between;
             align-items: center;
         }
+
         .header button:hover {
             background-color: #0056b3;
         }
 
-        table {
+        #lista table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
@@ -116,20 +126,32 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        table, th, td {
+        #lista table,
+        #lista th,
+        #lista td {
             border: 1px solid #ddd;
         }
 
-        th, td {
+        body.dark-theme #lista h2 {
+            color: #ffffff;
+        }
+
+        body.dark-theme #lista th,
+        td {
+            color: #000000;
+        }
+
+        #lista th,
+        #lista td {
             padding: 15px;
             text-align: left;
         }
 
-        th {
+        #lista th {
             background-color: #f4f4f9;
         }
 
-        .actions button {
+        #lista .actions button {
             padding: 10px;
             border: none;
             border-radius: 5px;
@@ -137,27 +159,27 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
             font-size: large;
         }
 
-        .actions .view {
+        #lista .actions .view {
             background-color: #ffc107;
             color: white;
         }
 
-        .actions .edit {
+        #lista .actions .edit {
             background-color: #007bff;
             color: white;
         }
 
-        .actions .delete {
+        #lista .actions .delete {
             background-color: #dc3545;
             color: white;
         }
 
-        .actions .forward {
+        #lista .actions .forward {
             background-color: #28a745;
             color: white;
         }
 
-        .actions button:hover {
+        #lista .actions button:hover {
             opacity: 0.8;
         }
 
@@ -250,106 +272,231 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
 
         form button[type="submit"]:hover {
             background-color: #0056b3;
-        }</style>
+        }
 
+        .theme-list {
+            display: none;
+            /* Inicialmente escondido */
+        }
+
+        .show {
+            display: block;
+            /* Mostra a lista quando ativada */
+        }
+
+        body.light-theme {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        body.dark-theme {
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+
+        /* Estilo da sidebar no modo dark */
+        body.dark-theme .sidebar {
+            background-color: #333333;
+            /* Cinza escuro */
+        }
+
+        /* Estilo dos links na sidebar no modo dark */
+        body.dark-theme .sidebar ul li a {
+            color: white;
+            /* Cor branca para os links */
+        }
+
+        body.dark-theme .sidebar button {
+            color: white;
+        }
+
+        /* Estilo de hover para os links na sidebar no modo dark */
+        body.dark-theme .sidebar ul li a:hover {
+            background-color: #444444;
+            /* Um pouco mais claro que o fundo da sidebar */
+        }
+
+        /* Estilo dos botões Claro e Escuro */
+        #themeList button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        #themeButton:hover {
+            background-color: #f0f0f0;
+        }
+        #themeButton{width: 100%;}
+
+        /* Estilo de hover para o botão de tema no modo escuro */
+        body.dark-theme #themeButton:hover {
+            background-color: #444444;
+            color: white;
+        }
+
+        #themeList button:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Estilo dos botões Claro e Escuro no modo escuro */
+        body.dark-theme #themeList button:hover {
+            background-color: #444444;
+            color: white;
+        }
+    </style>
 </head>
 
-<body>
+<body class="light-theme">
     <div class="sidebar">
         <h1>PROTEÇÃO</h1>
         <ul>
-            <li><a href="tabela.php">painel</a></li>
-            <li><a href="gerencia.php">gerenciador de usuarios</a></li>
-            <li><a href="../actions/logout.php">sair</a></li>
+            <li><a href="tabela.php">Painel</a></li>
+            <li><a href="gerencia.php">Gerenciador de Usuários</a></li>
+            <li>
+                <button id="themeButton">Tema</button>
+                <ul id="themeList" class="theme-list">
+                    <li><button id="lightTheme">Claro <i class="bi bi-sun-fill"></i></button></li>
+                    <li><button id="darkTheme">Escuro <i class="bi bi-moon-stars-fill"></i></button></li>
+                </ul>
+            </li>
+            <li><a href="../actions/logout.php">Sair</a></li>
+
+
         </ul>
     </div>
     <div class="main-content">
-    <div class="header">
-            <h2>Registros de Funcionarios</h2>
+        <div class="header">
+            <h2>Registros de Funcionários</h2>
             <div class="header-content">
-                <button id="addRecordBtn">Adicionar registro</button>
+                <button id="addRecordBtn">Adicionar Registro</button>
                 <form method="GET" action="gerencia.php">
-                    <input type="text" name="search" placeholder="Buscar por nome" value="<?php echo htmlspecialchars($search); ?>">
+                    <input type="text" name="search" placeholder="Buscar por nome"
+                        value="<?php echo htmlspecialchars($search); ?>">
                     <button type="submit">Buscar</button>
                 </form>
             </div>
-        <div>
-            <h2>Lista de Usuários</h2>
-            <?php
-            if (isset($_SESSION['mensagem'])) {
-                echo "<p>{$_SESSION['mensagem']}</p>";
-                unset($_SESSION['mensagem']); // Limpa a mensagem após exibir
-            }
-            ?>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Data de Cadastro</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $usuarios = buscarUsuarios($connect, $search);
-                    if (mysqli_num_rows($usuarios) > 0) {
-                        while ($usuario = mysqli_fetch_assoc($usuarios)) {
-                            echo "<tr>";
-                            echo "<td>" . htmlspecialchars($usuario['login']) . "</td>";
-                            echo "<td>" . date('d/m/Y ', strtotime($usuario['data_cadastro'])) . "</td>";
-                            echo "<td class='actions'>
-                                <button class='edit' onclick='window.location.href=\"../pages/tabela.php?id={$usuario['id']}\"'>Detalhar</button>
-                                <button class='delete' onclick='confirmarExclusao({$usuario['id']})'>Excluir</button>
-                              </td>";
-                            echo "</tr>";
+            <div id="lista">
+                <h2>Lista de Usuários</h2>
+                <?php
+                if (isset($_SESSION['mensagem'])) {
+                    echo "<p>{$_SESSION['mensagem']}</p>";
+                    unset($_SESSION['mensagem']); // Limpa a mensagem após exibir
+                }
+                ?>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Data de Cadastro</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $usuarios = buscarUsuarios($connect, $search);
+                        if (mysqli_num_rows($usuarios) > 0) {
+                            while ($usuario = mysqli_fetch_assoc($usuarios)) {
+                                echo "<tr>";
+                                echo "<td>" . htmlspecialchars($usuario['login']) . "</td>";
+                                echo "<td>" . date('d/m/Y ', strtotime($usuario['data_cadastro'])) . "</td>";
+                                echo "<td class='actions'>
+                                    <button class='edit' onclick='window.location.href=\"../pages/tabela.php?id={$usuario['id']}\"'>Detalhar</button>
+                                    <button class='delete' onclick='confirmarExclusao({$usuario['id']})'>Excluir</button>
+                                  </td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='3'>Nenhum usuário encontrado.</td></tr>";
                         }
-                    } else {
-                        echo "<tr><td colspan='3'>Nenhum usuário encontrado.</td></tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- The Modal -->
-        <div id="myModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Registro</h2>
-                <form action="../actions/inserirUsuario.php" method="POST">
-                    <input type="text" name="login" placeholder="Login" required>
-                    <input type="password" name="senha" placeholder="Senha" required>
-                    <input type="password" name="confirmar_senha" placeholder="Confirmar Senha" required>
-                    <button type="submit" name="cadastrar">Registrar</button>
-                </form>
+                        ?>
+                    </tbody>
+                </table>
             </div>
-        </div>
 
-        <script>
-            var modal = document.getElementById("myModal");
-            var btn = document.getElementById("addRecordBtn");
-            var span = document.getElementsByClassName("close")[0];
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Registro</h2>
+                    <form action="../actions/inserirUsuario.php" method="POST">
+                        <input type="text" name="login" placeholder="Login" required>
+                        <input type="password" name="senha" placeholder="Senha" required>
+                        <input type="password" name="confirmar_senha" placeholder="Confirmar Senha" required>
+                        <button type="submit" name="cadastrar">Registrar</button>
+                    </form>
+                </div>
+            </div>
 
-            btn.onclick = function () {
-                modal.style.display = "block";
-            }
+            <script>
+                var modal = document.getElementById("myModal");
+                var btn = document.getElementById("addRecordBtn");
+                var span = document.getElementsByClassName("close")[0];
 
-            span.onclick = function () {
-                modal.style.display = "none";
-            }
+                btn.onclick = function () {
+                    modal.style.display = "block";
+                }
 
-            window.onclick = function (event) {
-                if (event.target == modal) {
+                span.onclick = function () {
                     modal.style.display = "none";
                 }
-            }
 
-            function confirmarExclusao(userId) {
-                if (confirm("Tem certeza que deseja excluir este usuário?")) {
-                    window.location.href = "../actions/deletarUsuario.php?id=" + userId;
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
                 }
-            }
-        </script>
+
+                function confirmarExclusao(userId) {
+                    if (confirm("Tem certeza que deseja excluir este usuário?")) {
+                        window.location.href = "../actions/deletarUsuario.php?id=" + userId;
+                    }
+                }
+
+                document.getElementById('themeButton').addEventListener('click', function () {
+                    var themeList = document.getElementById('themeList');
+                    themeList.classList.toggle('show');
+                });
+
+                document.getElementById('lightTheme').addEventListener('click', function () {
+                    setTheme('light');
+                });
+
+                document.getElementById('darkTheme').addEventListener('click', function () {
+                    setTheme('dark');
+                });
+
+                // Função para definir o tema
+                function setTheme(theme) {
+                    if (theme === 'light') {
+                        document.body.classList.add('light-theme');
+                        document.body.classList.remove('dark-theme');
+                    } else if (theme === 'dark') {
+                        document.body.classList.add('dark-theme');
+                        document.body.classList.remove('light-theme');
+                    }
+                    // Armazenar o tema no local storage
+                    localStorage.setItem('theme', theme);
+                }
+
+                // Função para carregar o tema ao carregar a página
+                function loadTheme() {
+                    var theme = localStorage.getItem('theme');
+                    if (theme) {
+                        setTheme(theme);
+                    }
+                }
+
+                // Carregar o tema ao carregar a página
+                window.addEventListener('load', loadTheme);
+
+
+
+            </script>
 </body>
 
 </html>
