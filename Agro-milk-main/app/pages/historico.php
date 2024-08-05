@@ -26,6 +26,9 @@ $months = [
 // Verificar se o mês é válido
 $mesReferencia = array_key_exists($filtroMes, $months) ? $months[$filtroMes] : "Mês inválido";
 
+$totalQuantidadeLeite = 0;
+$totalValorMes = 0;
+
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
 
@@ -42,6 +45,14 @@ if (isset($_GET['id'])) {
             // Busca as entregas pagas do funcionário
             $queryEntregas = "SELECT * FROM entregas WHERE usuario_id = $id AND pago = 1 AND YEAR(data_entrega) = $filtroAno AND MONTH(data_entrega) = $filtroMes";
             $resultadoEntregas = mysqli_query($connect, $queryEntregas);
+
+            // Calcula o total das entregas do mês
+            if ($resultadoEntregas && mysqli_num_rows($resultadoEntregas) > 0) {
+                while ($entrega = mysqli_fetch_assoc($resultadoEntregas)) {
+                    $totalQuantidadeLeite += $entrega['quantidade_leite'];
+                    $totalValorMes += $entrega['quantidade_leite'] * $entrega['preco_dia'];
+                }
+            }
 
             // Consulta para obter os anos com entregas registradas
             $queryAnos = "SELECT DISTINCT YEAR(data_entrega) AS ano FROM entregas WHERE usuario_id = $id ORDER BY ano DESC";
@@ -225,7 +236,8 @@ if (isset($_GET['id'])) {
         </div>
         <div class="month-info">
             <strong>Mês Referente:</strong> <?php echo htmlspecialchars($mesReferencia); ?><br>
-            
+            <strong>Total Do Mês:</strong> R$ <?php echo number_format($totalValorMes, 2, ',', '.'); ?><br>
+            <strong>Quantidade Total de Leite:</strong> <?php echo htmlspecialchars($totalQuantidadeLeite); ?> litros
         </div>
         <table>
             <thead>
@@ -239,17 +251,18 @@ if (isset($_GET['id'])) {
             <tbody>
                 <?php
                 if ($resultadoEntregas && mysqli_num_rows($resultadoEntregas) > 0) {
+                    mysqli_data_seek($resultadoEntregas, 0); // Reseta o ponteiro de dados para a tabela
                     while ($entrega = mysqli_fetch_assoc($resultadoEntregas)) {
-                        $total = $entrega['quantidade_leite'] * 3.50; // Atualize com o valor correto se necessário
+                        $total = $entrega['quantidade_leite'] * $entrega['preco_dia'];
                         echo "<tr>";
                         echo "<td>" . date('d', strtotime($entrega['data_entrega'])) . "</td>";
                         echo "<td>" . htmlspecialchars($entrega['quantidade_leite']) . "</td>";
-                        echo "<td>" . htmlspecialchars($entrega['preco_dia']) .  " R$ </td>";
+                        echo "<td>" . htmlspecialchars($entrega['preco_dia']) . " R$ </td>";
                         echo "<td class='total-amount'>R$ " . number_format($total, 2, ',', '.') . "</td>";
                         echo "</tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='3'>Nenhuma entrega registrada.</td></tr>";
+                    echo "<tr><td colspan='4'>Nenhuma entrega registrada.</td></tr>";
                 }
                 ?>
             </tbody>
