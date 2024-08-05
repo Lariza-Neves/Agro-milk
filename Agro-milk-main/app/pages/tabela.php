@@ -100,11 +100,18 @@ if (isset($_GET['id'])) {
             background-color: #dc3545;
         }
     </style>
+    <script>
+        function confirmDelete(event) {
+            if (!confirm('Tem certeza que deseja excluir esta entrega?')) {
+                event.preventDefault();
+            }
+        }
+    </script>
 </head>
 
 <body>
     <h2>Detalhes do Funcionário: <?php echo htmlspecialchars($usuario['login'] ?? ''); ?></h2>
-    <li><a href="../actions/logout.php">sair</a></li>
+    <li><a href="../actions/logout.php">Sair</a></li>
     <table>
         <thead>
             <tr>
@@ -127,7 +134,7 @@ if (isset($_GET['id'])) {
                     echo "<td>R$ " . number_format($total, 2, ',', '.') . "</td>";
                     echo "<td class='actions'>
                             <a href='../actions/editarEntrega.php?id=" . $entrega['id'] . "' class='btn btn-detail'>Editar</a>
-                            <form action='../actions/excluirEntrega.php' method='POST' style='display:inline;'>
+                            <form action='../actions/excluirEntrega.php' method='POST' style='display:inline;' onsubmit='confirmDelete(event)'>
                                 <input type='hidden' name='id' value='" . $entrega['id'] . "'>
                                 <button type='submit' class='btn btn-delete'>Excluir</button>
                             </form>
