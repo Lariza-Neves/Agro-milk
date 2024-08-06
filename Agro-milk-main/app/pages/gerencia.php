@@ -28,10 +28,41 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciamento de Funcionarios</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
     <style>
+        
+    header {
+        background-color: #108237;
+        padding: 10px 20px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 50px;
+    }
+
+    header .logo {
+        display: flex;
+        align-items: center;
+    }
+
+    header .logo img {
+        height: 40px;
+        margin-right: 10px;
+    }
+
+    header .logo h1 {
+        margin: 0;
+        font-size: 24px;
+    }
+
+    header .user-icon i {
+        font-size: 24px;
+    }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -46,38 +77,49 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
             height: 100%;
             padding-top: 20px;
             border-right: 1px solid #ddd;
+            background-color: #a7dbb6 ;
         }
 
         .sidebar h1 {
+            color: #2E7D32; 
             text-align: center;
             font-size: 24px;
             margin-bottom: 20px;
         }
 
         .sidebar ul {
-            list-style-type: none;
-            padding: 0;
+            list-style: none;
+        padding: 0;
+        
         }
 
         .sidebar ul li {
-            padding: 15px;
+            margin: 5px 0;
             text-align: center;
         }
 
         .sidebar ul li a {
-            text-decoration: none;
-            color: #333;
-            font-size: 18px;
-            display: block;
+            color: black;
+        text-decoration: none;
+        font-size: 18px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        transition: background-color 0.3s;
         }
 
+        .sidebar ul li a i{
+            margin-right: 10px;
+        }
         .sidebar button {
             background: none;
             border: none;
         }
 
         .sidebar ul li a:hover {
-            background-color: #f4f4f9;
+            background-color: #9acfa2;
         }
 
         .main-content {
@@ -93,6 +135,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
             margin: 0;
             margin-top: 20px;
             margin-bottom: 10px;
+            color: #2E7D32;
         }
 
         .header button {
@@ -325,7 +368,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
         }
 
         #themeButton:hover {
-            background-color: #f0f0f0;
+            background-color: #9acfa2;
         }
         #themeButton{width: 100%;}
 
@@ -336,7 +379,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
         }
 
         #themeList button:hover {
-            background-color: #f0f0f0;
+            background-color: #9acfa2;
         }
 
         /* Estilo dos botões Claro e Escuro no modo escuro */
@@ -348,24 +391,31 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
 </head>
 
 <body class="light-theme">
+<header>
+        <div class="logo">
+            <img src="logo.png" alt="Logo Agro Milk">
+            <h1>Agro Milk</h1>
+        </div>
+        <div class="user-icon">
+            <i class="fas fa-user-circle"></i>
+        </div>
+    </header>
     <div class="sidebar">
         <h1>PROTEÇÃO</h1>
         <ul>
-            <li><a href="tabela.php">Painel</a></li>
-            <li><a href="gerencia.php">Gerenciador de Usuários</a></li>
-            <li>
-                <button id="themeButton">Tema</button>
+            <li><a href="tabela.php"><i class="fas fa-users"></i>Painel</a></li>
+                <button id="themeButton"><i class="fas fa-palette"></i>Tema</button>
                 <ul id="themeList" class="theme-list">
                     <li><button id="lightTheme">Claro <i class="bi bi-sun-fill"></i></button></li>
                     <li><button id="darkTheme">Escuro <i class="bi bi-moon-stars-fill"></i></button></li>
                 </ul>
             </li>
-            <li><a href="../actions/logout.php">Sair</a></li>
+            <li><a href="../actions/logout.php"><i class="fas fa-sign-out-alt"></i>Sair</a></li>
         </ul>
     </div>
     <div class="main-content">
         <div class="header">
-            <h2>Registros de Funcionários</h2>
+            <h2>Gerenciador de funcionários</h2>
             <div class="header-content">
                 <button id="addRecordBtn">Adicionar Registro</button>
                 <form method="GET" action="gerencia.php">
