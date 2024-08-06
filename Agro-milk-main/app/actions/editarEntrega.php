@@ -2,8 +2,10 @@
 require_once("../config/conecta.php");
 require_once("verifica_usuario.php");
 
-if (isset($_GET['id'])) {
+// Verifica se o ID da entrega está definido na URL
+if (isset($_GET['id']) && isset($_GET['usuario_id'])) {
     $id = intval($_GET['id']);
+    $usuario_id = intval($_GET['usuario_id']);
 
     if ($id > 0) {
         $queryEntrega = "SELECT * FROM entregas WHERE id = $id";
@@ -22,11 +24,12 @@ if (isset($_GET['id'])) {
         exit();
     }
 } else {
-    $_SESSION['mensagem'] = "Nenhum ID de entrega fornecido.";
+    $_SESSION['mensagem'] = "Nenhum ID de entrega ou usuário fornecido.";
     header("Location: ../pages/gerencia.php");
     exit();
 }
 
+// Verifica se o formulário foi submetido
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = intval($_POST['id']);
     $quantidade_leite = floatval($_POST['quantidade_leite']);
@@ -124,9 +127,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="container">
         <h2>Editar Entrega</h2>
-        <form action="editarEntrega.php?id=<?php echo $entrega['id']; ?>" method="POST">
+        <form action="editarEntrega.php?id=<?php echo $entrega['id']; ?>&usuario_id=<?php echo $usuario_id; ?>" method="POST">
             <input type="hidden" name="id" value="<?php echo $entrega['id']; ?>">
-            <input type="hidden" name="usuario_id" value="<?php echo htmlspecialchars($_GET['usuario_id']); ?>"> <!-- Captura o ID do usuário -->
+            <input type="hidden" name="usuario_id" value="<?php echo $usuario_id; ?>">
             <div class="input-group">
                 <label for="quantidade_leite">Quantidade de Leite:</label>
                 <input type="number" name="quantidade_leite" id="quantidade_leite" value="<?php echo htmlspecialchars($entrega['quantidade_leite']); ?>" step="0.01" required>

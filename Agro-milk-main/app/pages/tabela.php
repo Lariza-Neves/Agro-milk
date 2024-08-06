@@ -153,7 +153,8 @@ if (isset($_SESSION['mensagem'])) {
                     echo "<td>R$ " . number_format($entrega['preco_dia'], 2, ',', '.') . "</td>";
                     echo "<td>R$ " . number_format($total, 2, ',', '.') . "</td>";
                     echo "<td class='actions'>
-                            <a href='../actions/editarEntrega.php?id=" . $entrega['id'] . "' class='btn btn-detail'>Editar</a>
+                            <a href='../actions/editarEntrega.php?id=" . $entrega['id'] . "&usuario_id=" . $id . "' class='btn btn-detail'>Editar</a>
+
                             <form action='../actions/excluirEntrega.php' method='POST' style='display:inline;' onsubmit='confirmDelete(event)'>
                                 <input type='hidden' name='id' value='" . $entrega['id'] . "'>
                                 <input type='hidden' name='usuario_id' value='" . $id . "'>
