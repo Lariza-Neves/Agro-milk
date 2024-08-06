@@ -145,7 +145,7 @@
     }
     ?>
         
-        <li><button class='view' class='btn btn-delete' onclick='window.location.href="../pages/historico.php?id=<?php echo $id; ?>"'>Histórico</button>
+        <li><button class='view' class='btn btn-delete' onclick='window.location.href="../pages/historico.php?id=<?php echo $id; ?>"'><i class="bi bi-clipboard-data-fill"></i> Histórico</button>
         </li>
         <button id="themeButton"><i class="fas fa-palette"></i>Tema</button>
         <ul id="themeList" class="theme-list">
