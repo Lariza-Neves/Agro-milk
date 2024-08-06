@@ -52,70 +52,75 @@ if (isset($_SESSION['mensagem'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Informações de Pagamento</title>
     <style>
-.data-collection {
-    background-color: #C8E6C9;
-    padding: 20px;
-    border-radius: 4px;
-    width: 500px;
-}
+        .data-collection {
+            background-color: #C8E6C9;
+            padding: 20px;
+            border-radius: 4px;
+            width: 500px;
+        }
 
-.data-collection label {
-    display: block;
-    margin-bottom: 5px;
-}
+        .data-collection label {
+            display: block;
+            margin-bottom: 5px;
+        }
 
-.data-collection input {
-    width: 8vw;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: auto;
-}
-.data-collection button {
-    padding: 5px 10px;
+        .data-collection input {
+            width: 8vw;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: auto;
+        }
+
+        .data-collection button {
+            padding: 5px 10px;
             border: none;
             border-radius: 3px;
             color: white;
             cursor: pointer;
             background-color: #007bff !important;
+        }
 
-}
+        header {
+            background-color: #108237;
+            padding: 10px 20px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 50px;
+        }
 
-header {
-        background-color: #108237;
-        padding: 10px 20px;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 50px;
-    }
+        header .logo {
+            display: flex;
+            align-items: center;
+        }
 
-    header .logo {
-        display: flex;
-        align-items: center;
-    }
+        header .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
 
-    header .logo img {
-        height: 40px;
-        margin-right: 10px;
-    }
+        header .logo h1 {
+            margin: 0;
+            font-size: 24px;
+        }
 
-    header .logo h1 {
-        margin: 0;
-        font-size: 24px;
-    }
+        header .user-icon i {
+            font-size: 24px;
+        }
 
-    header .user-icon i {
-        font-size: 24px;
-    }
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-        main {display: flex;}
+
+        main {
+            display: flex;
+        }
+
         .container {
-            margin-left: 240px; /* Adiciona espaço suficiente para a sidebar */
+            margin-left: 240px;
         }
 
         table {
@@ -156,7 +161,6 @@ header {
             border-radius: 3px;
             color: white;
             cursor: pointer;
-            
         }
 
         .btn-detail {
@@ -172,7 +176,6 @@ header {
             background-color: #28a745 !important;
             margin-right: 5px;
         }
-        
     </style>
     <script>
         function confirmDelete(event) {
@@ -215,7 +218,9 @@ header {
                 <th>Litros do Dia</th>
                 <th>Valor do Leite</th>
                 <th>Total em R$</th>
-                <th>Ações</th>
+                <?php if ($_SESSION['tipo'] === 'admin'): ?>
+                    <th>Ações</th>
+                <?php endif; ?>
             </tr>
         </thead>
         <tbody>
@@ -228,20 +233,22 @@ header {
                     echo "<td>" . htmlspecialchars($entrega['quantidade_leite']) . "</td>";
                     echo "<td>R$ " . number_format($entrega['preco_dia'], 2, ',', '.') . "</td>";
                     echo "<td>R$ " . number_format($total, 2, ',', '.') . "</td>";
-                    echo "<td class='actions'>
-                            <a href='../actions/editarEntrega.php?id=" . $entrega['id'] . "&usuario_id=" . $id . "' class='btn btn-detail'>Editar</a>
+                    if ($_SESSION['tipo'] === 'admin') {
+                        echo "<td class='actions'>
+                                <a href='../actions/editarEntrega.php?id=" . $entrega['id'] . "&usuario_id=" . $id . "' class='btn btn-detail'>Editar</a>
 
-                            <form action='../actions/excluirEntrega.php' method='POST' style='display:inline;' onsubmit='confirmDelete(event)'>
-                                <input type='hidden' name='id' value='" . $entrega['id'] . "'>
-                                <input type='hidden' name='usuario_id' value='" . $id . "'>
-                                <button type='submit' class='btn btn-delete'>Excluir</button>
-                            </form>
-                            <form action='../actions/marcarPago.php' method='POST' style='display:inline;' onsubmit='confirmPago(event)'>
-                                <input type='hidden' name='id' value='" . $entrega['id'] . "'>
-                                <input type='hidden' name='usuario_id' value='" . $id . "'>
-                                <button type='submit' class='btn btn-paid'>Pago</button>
-                            </form>
-                          </td>";
+                                <form action='../actions/excluirEntrega.php' method='POST' style='display:inline;' onsubmit='confirmDelete(event)'>
+                                    <input type='hidden' name='id' value='" . $entrega['id'] . "'>
+                                    <input type='hidden' name='usuario_id' value='" . $id . "'>
+                                    <button type='submit' class='btn btn-delete'>Excluir</button>
+                                </form>
+                                <form action='../actions/marcarPago.php' method='POST' style='display:inline;' onsubmit='confirmPago(event)'>
+                                    <input type='hidden' name='id' value='" . $entrega['id'] . "'>
+                                    <input type='hidden' name='usuario_id' value='" . $id . "'>
+                                    <button type='submit' class='btn btn-paid'>Pago</button>
+                                </form>
+                              </td>";
+                    }
                     echo "</tr>";
                 }
             } else {
@@ -249,15 +256,18 @@ header {
             }
             ?>
         </tbody>
-    </table>
-
-    <h3>Inserir Dados de Coleta</h3>
+    </table><?php
+if ($_SESSION['tipo'] === 'admin') {
+    echo '<h3>Inserir Dados de Coleta</h3>
     <form action="../actions/inserirDadosColeta.php" method="POST" class="data-collection">
-        <input type="hidden" name="usuario_id" value="<?php echo $id; ?>">
+        <input type="hidden" name="usuario_id" value="' . $id . '">
         <input type="number" name="quantidade_leite" placeholder="Quant. Leite do dia" step="0.01" required>
         <input type="number" name="preco_dia" placeholder="Preço por litro do leite" step="0.01" required>
         <button type="submit" name="inserir">Inserir</button>
-    </form>
+    </form>';
+}
+?>
+
 </div>
     </main>
 </body>

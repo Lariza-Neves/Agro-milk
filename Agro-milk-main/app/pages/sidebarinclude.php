@@ -123,16 +123,30 @@
     .sidebar button {
         background: none;
         border: none;
+        width: 100%;
+        padding-bottom: 20px;
     }
-
+    .sidebar ul li button:hover {
+        background-color: #9acfa2;
+    }
     .sidebar ul li a:hover {
         background-color: #9acfa2;
     }
+    .view{
+    font-weight: bold !important;
+    }
+
 </style>
 
 <div class="sidebar">
-    <ul>
-        <li><a href="tabela.php"><i class="fas fa-users"></i>Painel</a></li>
+    <ul> <?php 
+    if ($_SESSION['tipo'] === 'admin') {
+        echo '<li><a href="tabela.php"><i class="fas fa-users"></i>Painel</a></li>';
+    }
+    ?>
+        
+        <li><button class='view' class='btn btn-delete' onclick='window.location.href="../pages/historico.php?id=<?php echo $id; ?>"'>Histórico</button>
+        </li>
         <button id="themeButton"><i class="fas fa-palette"></i>Tema</button>
         <ul id="themeList" class="theme-list">
             <li><button id="lightTheme">Claro <i class="bi bi-sun-fill"></i></button></li>
