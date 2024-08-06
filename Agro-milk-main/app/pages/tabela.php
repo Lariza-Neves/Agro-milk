@@ -52,9 +52,70 @@ if (isset($_SESSION['mensagem'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Informações de Pagamento</title>
     <style>
+.data-collection {
+    background-color: #C8E6C9;
+    padding: 20px;
+    border-radius: 4px;
+    width: 500px;
+}
+
+.data-collection label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.data-collection input {
+    width: 8vw;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: auto;
+}
+.data-collection button {
+    padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            color: white;
+            cursor: pointer;
+            background-color: #007bff !important;
+
+}
+
+header {
+        background-color: #108237;
+        padding: 10px 20px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 50px;
+    }
+
+    header .logo {
+        display: flex;
+        align-items: center;
+    }
+
+    header .logo img {
+        height: 40px;
+        margin-right: 10px;
+    }
+
+    header .logo h1 {
+        margin: 0;
+        font-size: 24px;
+    }
+
+    header .user-icon i {
+        font-size: 24px;
+    }
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+        }
+        main {display: flex;}
+        .container {
+            margin-left: 240px; /* Adiciona espaço suficiente para a sidebar */
         }
 
         table {
@@ -95,21 +156,23 @@ if (isset($_SESSION['mensagem'])) {
             border-radius: 3px;
             color: white;
             cursor: pointer;
+            
         }
 
         .btn-detail {
-            background-color: #007bff;
+            background-color: #007bff !important;
             margin-right: 5px;
         }
 
         .btn-delete {
-            background-color: #dc3545;
+            background-color: #dc3545 !important;
         }
 
         .btn-paid {
-            background-color: #28a745;
+            background-color: #28a745 !important;
             margin-right: 5px;
         }
+        
     </style>
     <script>
         function confirmDelete(event) {
@@ -127,8 +190,21 @@ if (isset($_SESSION['mensagem'])) {
 </head>
 
 <body>
+<header>
+        <div class="logo">
+            <img src="logo.png" alt="Logo Agro Milk">
+            <h1>Agro Milk</h1>
+        </div>
+        <div class="user-icon">
+            <i class="fas fa-user-circle"></i>
+        </div>
+    </header>  
+    <main>
+          
+<?php include_once "sidebarinclude.php"?>
+
+<div class="container">
     <h2>Detalhes do Funcionário: <?php echo htmlspecialchars($usuario['login'] ?? ''); ?></h2>
-    <li><a href="../actions/logout.php">Sair</a></li>
     <?php if ($mensagem): ?>
         <p><?php echo htmlspecialchars($mensagem); ?></p>
     <?php endif; ?>
@@ -176,13 +252,14 @@ if (isset($_SESSION['mensagem'])) {
     </table>
 
     <h3>Inserir Dados de Coleta</h3>
-    <form action="../actions/inserirDadosColeta.php" method="POST">
+    <form action="../actions/inserirDadosColeta.php" method="POST" class="data-collection">
         <input type="hidden" name="usuario_id" value="<?php echo $id; ?>">
         <input type="number" name="quantidade_leite" placeholder="Quant. Leite do dia" step="0.01" required>
         <input type="number" name="preco_dia" placeholder="Preço por litro do leite" step="0.01" required>
         <button type="submit" name="inserir">Inserir</button>
     </form>
-
+</div>
+    </main>
 </body>
 
 </html>

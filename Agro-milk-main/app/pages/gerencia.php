@@ -401,7 +401,6 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
         </div>
     </header>
     <div class="sidebar">
-        <h1>PROTEÇÃO</h1>
         <ul>
             <li><a href="tabela.php"><i class="fas fa-users"></i>Painel</a></li>
                 <button id="themeButton"><i class="fas fa-palette"></i>Tema</button>
