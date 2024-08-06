@@ -4,6 +4,7 @@ require_once("../actions/verifica_usuario.php"); // Inclui a verificação de ac
 
 $usuario = null;
 $resultadoEntregas = null;
+$mensagem = null;
 
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
@@ -35,6 +36,11 @@ if (isset($_GET['id'])) {
     $_SESSION['mensagem'] = "Nenhum ID de usuário fornecido.";
     header("Location: ../pages/gerencia.php");
     exit();
+}
+
+if (isset($_SESSION['mensagem'])) {
+    $mensagem = $_SESSION['mensagem'];
+    unset($_SESSION['mensagem']);
 }
 ?>
 
@@ -111,12 +117,21 @@ if (isset($_GET['id'])) {
                 event.preventDefault();
             }
         }
+
+        function confirmPago(event) {
+            if (!confirm('Tem certeza que deseja marcar esta entrega como paga?')) {
+                event.preventDefault();
+            }
+        }
     </script>
 </head>
 
 <body>
     <h2>Detalhes do Funcionário: <?php echo htmlspecialchars($usuario['login'] ?? ''); ?></h2>
     <li><a href="../actions/logout.php">Sair</a></li>
+    <?php if ($mensagem): ?>
+        <p><?php echo htmlspecialchars($mensagem); ?></p>
+    <?php endif; ?>
     <table>
         <thead>
             <tr>
@@ -141,10 +156,12 @@ if (isset($_GET['id'])) {
                             <a href='../actions/editarEntrega.php?id=" . $entrega['id'] . "' class='btn btn-detail'>Editar</a>
                             <form action='../actions/excluirEntrega.php' method='POST' style='display:inline;' onsubmit='confirmDelete(event)'>
                                 <input type='hidden' name='id' value='" . $entrega['id'] . "'>
+                                <input type='hidden' name='usuario_id' value='" . $id . "'>
                                 <button type='submit' class='btn btn-delete'>Excluir</button>
                             </form>
-                            <form action='../actions/marcarPago.php' method='POST' style='display:inline;'>
+                            <form action='../actions/marcarPago.php' method='POST' style='display:inline;' onsubmit='confirmPago(event)'>
                                 <input type='hidden' name='id' value='" . $entrega['id'] . "'>
+                                <input type='hidden' name='usuario_id' value='" . $id . "'>
                                 <button type='submit' class='btn btn-paid'>Pago</button>
                             </form>
                           </td>";

@@ -4,6 +4,7 @@ require_once("verifica_usuario.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = intval($_POST['id']);
+    $usuario_id = intval($_POST['usuario_id']); // Capturar o usuário_id do formulário
 
     if ($id > 0) {
         $queryDeleta = "DELETE FROM entregas WHERE id = $id";
@@ -19,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $_SESSION['mensagem'] = "Método de requisição inválido.";
 }
 
-header("Location: ../pages/gerencia.php");
+// Redirecionar de volta para a página de tabelas
+header("Location: ../pages/tabela.php?id=$usuario_id");
 exit();
 ?>

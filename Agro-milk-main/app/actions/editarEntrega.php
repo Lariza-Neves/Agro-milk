@@ -31,18 +31,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = intval($_POST['id']);
     $quantidade_leite = floatval($_POST['quantidade_leite']);
     $preco_dia = floatval($_POST['preco_dia']);
+    $usuario_id = intval($_POST['usuario_id']); // Captura o usuario_id do formulário
 
     $queryAtualiza = "UPDATE entregas SET quantidade_leite = $quantidade_leite, preco_dia = $preco_dia WHERE id = $id";
     if (mysqli_query($connect, $queryAtualiza)) {
         $_SESSION['mensagem'] = "Entrega atualizada com sucesso.";
-        header("Location: ../pages/gerencia.php");
-        exit();
     } else {
         $_SESSION['mensagem'] = "Erro ao atualizar entrega.";
     }
+
+    // Redirecionar para a página de tabela com o ID do usuário
+    header("Location: ../pages/tabela.php?id=$usuario_id");
+    exit();
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -124,19 +126,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <h2>Editar Entrega</h2>
         <form action="editarEntrega.php?id=<?php echo $entrega['id']; ?>" method="POST">
             <input type="hidden" name="id" value="<?php echo $entrega['id']; ?>">
+            <input type="hidden" name="usuario_id" value="<?php echo htmlspecialchars($_GET['usuario_id']); ?>"> <!-- Captura o ID do usuário -->
             <div class="input-group">
                 <label for="quantidade_leite">Quantidade de Leite:</label>
                 <input type="number" name="quantidade_leite" id="quantidade_leite" value="<?php echo htmlspecialchars($entrega['quantidade_leite']); ?>" step="0.01" required>
-               
             </div>
             <div class="input-group">
                 <label for="preco_dia">Preço do Leite:</label>
                 <input type="number" name="preco_dia" id="preco_dia" value="<?php echo htmlspecialchars($entrega['preco_dia']); ?>" step="0.01" required>
-                
             </div>
             <button type="submit">Salvar</button>
         </form>
     </div>
 </body>
 </html>
-
