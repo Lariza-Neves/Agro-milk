@@ -112,14 +112,22 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
 
         .sidebar ul li a i{
             margin-right: 10px;
+            margin-left: 10px;
         }
         .sidebar button {
+            font-size: large;
+            background: none;
+            border: none;
+        }
+
+        .sidebar button i {
+            font-size: large;
             background: none;
             border: none;
         }
 
         .sidebar ul li a:hover {
-            background-color: #9acfa2;
+            background-color: #066226;
         }
 
         .main-content {
@@ -159,6 +167,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
         }
 
         #lista table {
+            margin-top: 20px;
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
@@ -336,7 +345,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
 
         /* Estilo da sidebar no modo dark */
         body.dark-theme .sidebar {
-            background-color: #333333;
+            background-color: #053917;
             /* Cinza escuro */
         }
 
@@ -352,7 +361,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
 
         /* Estilo de hover para os links na sidebar no modo dark */
         body.dark-theme .sidebar ul li a:hover {
-            background-color: #444444;
+            background-color: #066226;
             /* Um pouco mais claro que o fundo da sidebar */
         }
 
@@ -368,24 +377,27 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
         }
 
         #themeButton:hover {
-            background-color: #9acfa2;
+            background-color: #066226;
         }
         #themeButton{width: 100%;}
 
         /* Estilo de hover para o botão de tema no modo escuro */
         body.dark-theme #themeButton:hover {
-            background-color: #444444;
+            background-color: #066226;
             color: white;
         }
 
         #themeList button:hover {
-            background-color: #9acfa2;
+            background-color: #066226;
         }
 
         /* Estilo dos botões Claro e Escuro no modo escuro */
         body.dark-theme #themeList button:hover {
-            background-color: #444444;
+            background-color: #066226;
             color: white;
+        }
+        body.dark-theme .header h2{
+            color: #a7dbb6;
         }
     </style>
 </head>
@@ -396,14 +408,11 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
             <img src="logo.png" alt="Logo Agro Milk">
             <h1>Agro Milk</h1>
         </div>
-        <div class="user-icon">
-            <i class="fas fa-user-circle"></i>
-        </div>
     </header>
     <div class="sidebar">
         <ul>
             <li><a href="tabela.php"><i class="fas fa-users"></i>Painel</a></li>
-                <button id="themeButton"><i class="fas fa-palette"></i>Tema</button>
+                <button id="themeButton"><i class="fas fa-palette"></i> Tema</button>
                 <ul id="themeList" class="theme-list">
                     <li><button id="lightTheme">Claro <i class="bi bi-sun-fill"></i></button></li>
                     <li><button id="darkTheme">Escuro <i class="bi bi-moon-stars-fill"></i></button></li>
@@ -423,7 +432,6 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
                 </form>
             </div>
             <div id="lista">
-                <h2>Lista de Usuários</h2>
                 <?php
                 if (isset($_SESSION['mensagem'])) {
                     echo "<p>{$_SESSION['mensagem']}</p>";

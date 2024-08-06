@@ -127,7 +127,6 @@ if (isset($_SESSION['mensagem'])) {
             width: 100%;
             border-collapse: collapse;
         }
-
         th,
         td {
             border: 1px solid #ddd;
@@ -176,6 +175,10 @@ if (isset($_SESSION['mensagem'])) {
             background-color: #28a745 !important;
             margin-right: 5px;
         }
+        .container h2{
+            margin-top:30px;
+            color: #108237;
+        }
     </style>
     <script>
         function confirmDelete(event) {
@@ -198,9 +201,6 @@ if (isset($_SESSION['mensagem'])) {
             <img src="logo.png" alt="Logo Agro Milk">
             <h1>Agro Milk</h1>
         </div>
-        <div class="user-icon">
-            <i class="fas fa-user-circle"></i>
-        </div>
     </header>  
     <main>
           
@@ -208,6 +208,7 @@ if (isset($_SESSION['mensagem'])) {
 
 <div class="container">
     <h2>Detalhes do Funcionário: <?php echo htmlspecialchars($usuario['login'] ?? ''); ?></h2>
+    <br>
     <?php if ($mensagem): ?>
         <p><?php echo htmlspecialchars($mensagem); ?></p>
     <?php endif; ?>
@@ -256,17 +257,18 @@ if (isset($_SESSION['mensagem'])) {
             }
             ?>
         </tbody>
-    </table><?php
-if ($_SESSION['tipo'] === 'admin') {
-    echo '<h3>Inserir Dados de Coleta</h3>
-    <form action="../actions/inserirDadosColeta.php" method="POST" class="data-collection">
-        <input type="hidden" name="usuario_id" value="' . $id . '">
-        <input type="number" name="quantidade_leite" placeholder="Quant. Leite do dia" step="0.01" required>
-        <input type="number" name="preco_dia" placeholder="Preço por litro do leite" step="0.01" required>
-        <button type="submit" name="inserir">Inserir</button>
-    </form>';
-}
-?>
+    </table> <br>
+    <?php
+        if ($_SESSION['tipo'] === 'admin') {
+            echo '<h4>Inserir Dados de Coleta</h4>
+            <form action="../actions/inserirDadosColeta.php" method="POST" class="data-collection">
+                <input type="hidden" name="usuario_id" value="' . $id . '">
+                <input type="number" name="quantidade_leite" placeholder="Quant. Leite do dia" step="0.01" required>
+                <input type="number" name="preco_dia" placeholder="Preço por litro do leite" step="0.01" required>
+                <button type="submit" name="inserir">Inserir</button>
+            </form>';
+        }
+    ?>
 
 </div>
     </main>

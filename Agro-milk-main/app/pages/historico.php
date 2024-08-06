@@ -95,7 +95,7 @@ if (isset($_GET['id'])) {
 
         .sidebar {
             width: 250px;
-            background-color: #0077b6;
+            background-color: #a7dbb6;
             padding: 20px;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
             height: 100vh;
@@ -130,9 +130,9 @@ if (isset($_GET['id'])) {
             width: calc(100% - 270px);
         }
 
-        .content h1 {
+        .content h3 {
             text-align: center;
-            color: #0077b6;
+            color: #108237;
         }
 
         .filter-form {
@@ -148,15 +148,16 @@ if (isset($_GET['id'])) {
 
         .filter-form button {
             padding: 10px 20px;
-            background-color: #0077b6;
+            background-color: #108237;
             color: white;
             border: none;
             cursor: pointer;
             font-size: 16px;
+            border-radius: 9px 0;
         }
 
         .filter-form button:hover {
-            background-color: #005f8a;
+            background-color: #063014;
         }
 
         table {
@@ -175,7 +176,7 @@ if (isset($_GET['id'])) {
         }
 
         th {
-            background-color: #0077b6;
+            background-color: #108237;
             color: #fff;
         }
 
@@ -193,6 +194,7 @@ if (isset($_GET['id'])) {
             color: #0077b6;
             font-weight: bold;
         }
+        
     </style>
     <script>
         function filterHistory() {
@@ -203,12 +205,10 @@ if (isset($_GET['id'])) {
     </script>
 </head>
 <body>
-    <div class="sidebar">
-        <img src="../public/assets/person-circle.svg" alt="Foto de Perfil">
-        <h2><?php echo htmlspecialchars($usuario['login'] ?? ''); ?></h2>
-    </div>
+    
+<?php include_once "sidebarinclude.php"?>
     <div class="content">
-        <h1>Histórico de Leite Fornecido</h1>
+        <h3>Histórico de Leite Fornecido por: <?php echo htmlspecialchars($usuario['login'] ?? ''); ?></h3>
         <div class="filter-form">
             <label for="year">Ano:</label>
             <select id="year" name="year">

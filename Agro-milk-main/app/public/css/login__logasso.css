@@ -6,7 +6,7 @@ body{
 .main-login{ 
     width: 100vw; 
     height: 100vh;
-    background: #cbc7c7; 
+    background: white; 
     display: flex; 
     justify-content: center;
     align-items: center; 
@@ -45,7 +45,7 @@ body{
     align-items: center;
     flex-direction: column;
     padding: 30px 35px;
-    background: #87a8f0d2; 
+    background: #a7dbb6; 
     border-radius: 20px; 
     box-shadow: 0px 5px 20px rgb(12, 12, 12); 
 }
@@ -67,15 +67,17 @@ body{
     border: none;
     border-radius: 10px;
     padding: 15px;
-    background: #e6daff;
+    background: white;
     color: rgb(49, 78, 78);
     font-size: 12pt;
     box-shadow: 0px 10px 40px #3c524c;
     outline: none;
 }
 .textfield > label{
-    color: rgb(230, 254, 255);
+    color: #108237;
     margin-bottom: 10px;
+    font: arial;
+    font-weight: bold;
 }
 .textfield > input::placeholder{
     color: #0b0c0c93;
@@ -91,9 +93,13 @@ body{
     font-weight: 800;
     letter-spacing: 3px;
     color:#fff6f6;
-    background: #407cff;
+    background: #108237;
     cursor: pointer;
     box-shadow: 0px 4px 40px -12px #000000;
+}
+
+.btn-login:hover{
+    background: #296b40;
 }
 a{
     display: flex;

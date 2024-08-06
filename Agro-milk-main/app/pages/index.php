@@ -14,7 +14,7 @@
         <nav class="navigation">
             <a href="#" class="logo">A<span>gr</span>o M<span>il</span>K</a>
             <ul class="nav-menu">
-                <li class="nav-item"><a href="area_cons.html">Conscientização</a></li>
+                <li class="nav-item"><a href="area_conste.php">Conscientização</a></li>
             </ul>
             <div class="menu">
                 <span class="bar"></span>

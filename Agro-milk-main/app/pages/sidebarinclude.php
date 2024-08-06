@@ -29,7 +29,7 @@
     }
 
     body.dark-theme .sidebar {
-        background-color: #333333;
+        background-color: #053917;;
     }
 
     body.dark-theme .sidebar ul li a {
@@ -41,7 +41,7 @@
     }
 
     body.dark-theme .sidebar ul li a:hover {
-        background-color: #444444;
+        background-color: #066226;
     }
 
     #themeList button {
@@ -56,7 +56,7 @@
     }
 
     #themeButton:hover {
-        background-color: #9acfa2;
+        background-color: #066226;
     }
 
     #themeButton {
@@ -65,27 +65,42 @@
     }
 
     body.dark-theme #themeButton:hover {
-        background-color: #444444;
+        background-color: #066226;
         color: white;
     }
 
     #themeList button:hover {
-        background-color: #9acfa2;
+        background-color: #066226;
     }
 
     body.dark-theme #themeList button:hover {
-        background-color: #444444;
+        background-color: #066226;
         color: white;
     }
 
     .sidebar {
-        width: 220px;
+        width: 265px;
         background-color: #a7dbb6;
         height: 100vh;
         padding-top: 20px;
         border-right: 1px solid #ddd;
         font-weight: bold;
     }
+
+    .sidebar button {
+        font-size: large;
+        background: none;
+        border: none;
+    }
+
+
+    .sidebar button i {
+        font-size: large;
+        background: none;
+        border: none;
+    }
+
+
 
     .sidebar h1 {
         color: #2E7D32;
@@ -107,7 +122,7 @@
     .sidebar ul li a {
         color: black;
         text-decoration: none;
-        font-size: 18px;
+        font-size: large;
         padding: 10px;
         display: flex;
         align-items: center;
@@ -118,6 +133,7 @@
 
     .sidebar ul li a i {
         margin-right: 10px;
+        margin-left: 10px;
     }
 
     .sidebar button {
@@ -127,15 +143,33 @@
         padding-bottom: 20px;
     }
     .sidebar ul li button:hover {
-        background-color: #9acfa2;
+        background-color: #066226;
     }
     .sidebar ul li a:hover {
-        background-color: #9acfa2;
+        background-color: #066226;
+    }
+    .view:hover{
+        background-color: #066226;
     }
     .view{
-    font-weight: bold !important;
+        font-weight: bold !important;
     }
-
+    body.dark-theme .container h2{
+        color: #a7dbb6;
+    }
+    body.dark-theme tbody{
+        color: black;
+        background-color: #ffffff;
+    }
+    body.dark-theme .month-info{
+        color: #a7dbb6;
+    }
+    body.dark-theme .content{
+        color: #a7dbb6;
+    }
+    body.dark-theme .content h3{
+        color: #a7dbb6;
+    }
 </style>
 
 <div class="sidebar">
@@ -147,7 +181,7 @@
         
         <li><button class='view' class='btn btn-delete' onclick='window.location.href="../pages/historico.php?id=<?php echo $id; ?>"'><i class="bi bi-clipboard-data-fill"></i> Histórico</button>
         </li>
-        <button id="themeButton"><i class="fas fa-palette"></i>Tema</button>
+        <button id="themeButton"><i class="fas fa-palette"></i> Tema</button>
         <ul id="themeList" class="theme-list">
             <li><button id="lightTheme">Claro <i class="bi bi-sun-fill"></i></button></li>
             <li><button id="darkTheme">Escuro <i class="bi bi-moon-stars-fill"></i></button></li>
