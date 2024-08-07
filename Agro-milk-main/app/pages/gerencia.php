@@ -50,8 +50,9 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
     }
 
     header .logo img {
-        height: 40px;
-        margin-right: 10px;
+        margin-top: 20px;
+        width: 80px;
+        height: auto;
     }
 
     header .logo h1 {
@@ -405,7 +406,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
 <body class="light-theme">
 <header>
         <div class="logo">
-            <img src="logo.png" alt="Logo Agro Milk">
+            <img src="../public/img/mlogo.png" alt="Logo Agro Milk">
             <h1>Agro Milk</h1>
         </div>
     </header>

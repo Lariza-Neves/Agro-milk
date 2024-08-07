@@ -25,7 +25,7 @@
 
     <div class="main-login">
         <div class="left-login">
-            <img src="../public/img/agro-milk (1).png" class="left-login-img" alt="...">
+            <img src="../public/img/mlogo.png" class="left-login-img" alt="...">
         </div>
         <div class="right-login">
             <div class="card-login">

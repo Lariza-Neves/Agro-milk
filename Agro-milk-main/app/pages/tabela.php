@@ -97,8 +97,9 @@ if (isset($_SESSION['mensagem'])) {
         }
 
         header .logo img {
-            height: 40px;
-            margin-right: 10px;
+            margin-top: 20px;
+            width: 80px;
+            height: auto;
         }
 
         header .logo h1 {
@@ -198,7 +199,7 @@ if (isset($_SESSION['mensagem'])) {
 <body>
 <header>
         <div class="logo">
-            <img src="logo.png" alt="Logo Agro Milk">
+            <img src="../public/img/mlogo.png" alt="Logo Agro Milk">
             <h1>Agro Milk</h1>
         </div>
     </header>  
